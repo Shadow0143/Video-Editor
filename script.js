@@ -1433,6 +1433,14 @@ window.addEventListener('dragover', function(e) {
   e.preventDefault();
 });
 
+function simplePlay(){
+  if (player.playing) {
+    player.pause();
+  } else {
+    player.play();
+  }
+}
+
 
 window.addEventListener('keydown', function(ev) {
   if (ev.code == "Space") {
