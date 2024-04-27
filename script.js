@@ -1367,7 +1367,7 @@ class Player {
 
   addFile(file) {
     if (file.type.indexOf('video') >= 0) {
-      // this.add(new AudioLayer(file)); //commented by shakil for removing the audio laye r while adding the video layer
+      // this.add(new AudioLayer(file));
       return this.add(new VideoLayer(file));
     } else if (file.type.indexOf('image') >= 0) {
       return this.add(new ImageLayer(file));
@@ -1432,14 +1432,6 @@ window.addEventListener('paste', function(ev) {
 window.addEventListener('dragover', function(e) {
   e.preventDefault();
 });
-
-function simplePlay(){
-  if (player.playing) {
-    player.pause();
-  } else {
-    player.play();
-  }
-}
 
 
 window.addEventListener('keydown', function(ev) {
