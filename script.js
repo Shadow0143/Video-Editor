@@ -738,12 +738,13 @@ class AudioLayer extends RenderedLayer {
   }
 
   render(ctx_out, ref_time) {
+    console.log('ref_time =========================',ref_time);
     if (!this.ready) {
       return;
     }
-    if (!this.player.playing) {
-      return;
-    }
+      if (!this.player.playing) {
+        return;
+      }
     let time = ref_time - this.start_time;
     if (time < 0 || time > this.total_time) {
       return;
@@ -1646,6 +1647,7 @@ function getSupportedMimeTypes() {
 }
 
 function download(ev) {
+  console.log('Ev ====================',ev);
   if (ev.shiftKey) {
     exportToJson();
     return;
