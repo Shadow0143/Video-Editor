@@ -1,94 +1,112 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Pics2Gif: Pics2Gif Converter</title>
+
+<head>
+    <title>Gif Converter</title>
+    <link rel="icon" type="image/png" href="icon.png">
+
     <meta charset="UTF-8">
     <link rel="stylesheet" href="libraries/animateCSS/animate.css">
     <link rel="stylesheet" href="libraries/polyui/polyui.css">
     <link rel="stylesheet" href="css/polyrise.css">
     <link rel="stylesheet" href="libraries/font-awesome/font-awesome.css">
-    <link rel="stylesheet" href="libraries/alertifyjs/css/alertify.min.css">
-    <link rel="stylesheet" href="libraries/alertifyjs/css/themes/default.min.css">
     <link rel="stylesheet" href="libraries/fancybox/css/core.css" />
     <link rel="stylesheet" href="libraries/fancybox/css/fullscreen.css" />
     <link rel="stylesheet" href="libraries/fancybox/css/slideshow.css" />
     <link rel="stylesheet" href="libraries/fancybox/css/thumbs.css" />
     <link rel="stylesheet" href="libraries/fancybox/css/jquery.fancybox.min.css" />
     <link rel="stylesheet" href="css/style.css">
-    
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-  
-  </head>
-  <body>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+
+</head>
+
+<body>
     <div class="header polyriseblock notgrid w100p h100p" style="display: inline-table; padding: 1em;">
-      <div class="grid h100p">
-        <div class="grid__col--12 nomar h100p">
-        <div>
-            <a href="./index.html" class="btn btn-sm btn-outline-danger"> Back to video editing</a>
-        </div>
-          <div class="table">
-            <div class="cell">
-              <div class="panel--centered centered grid__col--12 tc">
-               <div id="showit" class="hide">
-                 <img id="result" class="bounceInUp bounceInUp1s">
-               </div>
-               <div id="showprocess" class="hide">
-                 <svg viewBox="0 0 600 150">
-                   <text y="93.75" x="75" style="line-height:125%;" font-weight="400" font-size="80" font-family="Lato" letter-spacing="0" word-spacing="0" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <tspan>Creating GIF</tspan>
-                    </text>
-                  </svg>
+        <div class="grid h100p">
+            <div class="grid__col--12 nomar h100p">
+
+                <div class="table">
+                    <div class="cell">
+                        <div class="panel--centered centered grid__col--12 tc">
+                            <div id="showit" class="hide">
+                                <img id="result" class="bounceInUp bounceInUp1s">
+                            </div>
+                            <div id="showprocess" class="hide">
+                                <svg viewBox="0 0 600 150">
+                                    <text y="93.75" x="75" style="line-height:125%;" font-weight="400" font-size="80"
+                                        font-family="Lato" letter-spacing="0" word-spacing="0" fill="none"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <tspan>Creating GIF</tspan>
+                                    </text>
+                                </svg>
+                            </div>
+                            <label for="openfile">
+                                <h1 id="read" class="bounceInUp bounceInUp1s blacktxt pointer">
+                                    <i class="fa fa-upload"></i>
+                                </h1>
+                            </label>
+                            <h2 id="scripttxt" class="bounceInUp bounceInUp1s blacktxt hide" style="font-size: 32px;">
+                                Width of Image: <input id="animWidth" type="number" step="10" min="50" value="250"
+                                    style="background: none; width: 250px; display: inline; padding: 0 0 0 15px; text-align: center;"><br>
+                                Height of Image: <input id="animHeight" type="number" step="10" min="50" value="250"
+                                    style="background: none; width: 250px; display: inline; padding: 0 0 0 15px; text-align: center;"><br>
+                                Interval (seconds before next frame): <input id="animRate" type="number" step="0.01"
+                                    min="0.01" value="0.04"
+                                    style="background: none; width: 150px; display: inline; padding: 0 0 0 15px; text-align: center;">
+                            </h2>
+                            <p id="btns" class="hide" style="text-align: center;">
+                                <a id="creategif" class="btn--blue bounceInUp bounceInUp1s pointer w100p">
+                                    Create Gif
+                                </a>
+                                <a id="exportgif" class="hide btn--success bounceInUp bounceInUp1s pointer w100p"
+                                    download="download">
+                                    Export Gif
+                                </a>
+                            </p>
+
+                            <div id="imgframes" class="bounceInUp bounceInUp1s"></div>
+                        </div>
+                        <div class="text-center text-danger " id="selectMessage">
+                            <p>
+                                Please select multiple .png files
+                            </p>
+                        </div>
+                        <div class="text-center">
+                            <a href="./index.html" class="btn btn-sm btn-outline-danger"> Back to video editing</a>
+                        </div>
+                    </div>
                 </div>
-                <label for="openfile">
-                  <h1 id="read" class="bounceInUp bounceInUp1s blacktxt pointer">
-                    <i class="fa fa-upload"></i>
-                  </h1>
-                </label>
-                <h2 id="scripttxt" class="bounceInUp bounceInUp1s blacktxt hide" style="font-size: 32px;">
-                 Width of Image: <input id="animWidth" type="number" step="10" min="50" value="800" style="background: none; width: 150px; display: inline; padding: 0 0 0 15px; text-align: center;"><br>
-                 Height of Image: <input id="animHeight" type="number" step="10" min="50" value="600" style="background: none; width: 150px; display: inline; padding: 0 0 0 15px; text-align: center;"><br>
-                 Interval (seconds before next frame): <input id="animRate" type="number" step="0.01" min="0.01" value="0.04" style="background: none; width: 150px; display: inline; padding: 0 0 0 15px; text-align: center;">
-                </h2>
-                <p id="btns" class="hide" style="text-align: center;">
-                  <a id="creategif" class="btn--blue bounceInUp bounceInUp1s pointer w100p">
-                    Create Gif
-                  </a>
-                  <a id="exportgif" class="hide btn--success bounceInUp bounceInUp1s pointer w100p" download="download">
-                    Export Gif
-                  </a>
-                </p>
-                
-                <div id="imgframes" class="bounceInUp bounceInUp1s"></div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-    <div id="dropflash" class="hide"></div>
-    
-    <!-- image dimensions -->
-    <div class="hide">
-      <img id="dimensions">
-    </div>
-    
-    <!-- readsvg -->
-    <div class="hide">
-      <input id="openfile" type="file" multiple accept="image/png,image/x-png,image/jpeg,image/bmp,image/tiff">
-    </div>
-    
-    <script src="libraries/alertifyjs/alertify.min.js"></script>
-    <script src="libraries/jquery/jquery.js"></script>
-    <script src="libraries/gifshot/gifshot.min.js"></script>
-    <script src="libraries/fancybox/js/core.js"></script>
-    <script src="libraries/fancybox/js/fullscreen.js"></script>
-    <script src="libraries/fancybox/js/guestures.js"></script>
-    <script src="libraries/fancybox/js/media.js"></script>
-    <script src="libraries/fancybox/js/slideshow.js"></script>
-    <script src="libraries/fancybox/js/thumbs.js"></script>
-    <script src="libraries/fancybox/js/jquery.fancybox.min.js"></script>
-    <script src="js/pics2gif.js"></script>
-  </body>
+        <div id="dropflash" class="hide"></div>
+
+        <!-- image dimensions -->
+        <div class="hide">
+            <img id="dimensions">
+        </div>
+
+        <!-- readsvg -->
+        <div class="hide">
+            <input id="openfile" type="file" multiple accept="image/png,image/x-png,image/jpeg,image/bmp,image/tiff">
+        </div>
+
+        <script src="libraries/jquery/jquery.js"></script>
+        <script src="libraries/gifshot/gifshot.min.js"></script>
+        <script src="libraries/fancybox/js/core.js"></script>
+        <script src="libraries/fancybox/js/fullscreen.js"></script>
+        <script src="libraries/fancybox/js/guestures.js"></script>
+        <script src="libraries/fancybox/js/media.js"></script>
+        <script src="libraries/fancybox/js/slideshow.js"></script>
+        <script src="libraries/fancybox/js/thumbs.js"></script>
+        <script src="libraries/fancybox/js/jquery.fancybox.min.js"></script>
+        <script src="js/pics2gif.js"></script>
+</body>
+
 </html>
