@@ -26,7 +26,7 @@ const ext_map = {
   'oga': 'audio/ogg',
   'wav': 'audio/wav',
   'weba': 'audio/webm',
-  };
+};
 
 class Settings {
   constructor() {
@@ -40,7 +40,7 @@ class Settings {
     this.div.appendChild(ok);
   }
 
-  add(name, type, init, callback, elem_type='input') {
+  add(name, type, init, callback, elem_type = 'input') {
     let label = document.createElement('label');
     label.textContent = name;
     let setting = document.createElement(elem_type);
@@ -59,11 +59,11 @@ function updateSettings() {
   settings.add('FPS', 'text',
     e => e.value = fps.toFixed(2),
     e => fps = Number.parseInt(e.target.value)
-    );
+  );
   settings.add('Max RAM (in MB)', 'text',
     e => e.value = (max_size / 1e6).toFixed(2),
     e => max_size = 1e6 * Number.parseInt(e.target.value)
-    );
+  );
   popup(settings.div);
 }
 
@@ -71,7 +71,7 @@ function exportToJson() {
   var xhr = new XMLHttpRequest();
   const date = new Date().getTime();
   const str = date + "_" + Math.floor(Math.random() * 1000) + ".json";
-  const url = "https://jott.live/save/note/"+ str + "/mebm";
+  const url = "https://jott.live/save/note/" + str + "/mebm";
   xhr.open("POST", url, true);
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.send(JSON.stringify({
@@ -167,7 +167,7 @@ class RenderedLayer {
 
     this.description = document.createElement('span');
     this.description.classList.toggle('description');
-    this.description.addEventListener('click', (function(e) {
+    this.description.addEventListener('click', (function (e) {
       const new_text = prompt("Enter new text:");
       if (new_text) {
         this.update_name(new_text);
@@ -178,7 +178,7 @@ class RenderedLayer {
     let delete_option = document.createElement('a');
     delete_option.textContent = '[x]';
     delete_option.style.float = "right";
-    delete_option.addEventListener('click', (function() {
+    delete_option.addEventListener('click', (function () {
       if (confirm("Delete layer \"" + this.name + "\"?")) {
         this.player.remove(this);
       }
@@ -299,7 +299,7 @@ class MoveableLayer extends RenderedLayer {
   nearest_anchor(time, fwd) {
     if (this.getFrame(time)) {
       let i = this.getIndex(time);
-      let inc = function() {
+      let inc = function () {
         if (fwd) {
           i++;
         } else {
@@ -468,9 +468,9 @@ class ImageLayer extends MoveableLayer {
     this.img = new Image();
 
     this.reader = new FileReader();
-    this.reader.addEventListener("load", (function() {
+    this.reader.addEventListener("load", (function () {
       this.img.src = this.reader.result;
-      this.img.addEventListener('load', (function() {
+      this.img.addEventListener('load', (function () {
         this.width = this.img.naturalWidth;
         this.height = this.img.naturalHeight;
         this.ready = true;
@@ -530,7 +530,7 @@ class TextLayer extends MoveableLayer {
     let settings_link = document.createElement('a');
     settings_link.style.float = "right";
     settings_link.textContent = "[...]";
-    settings_link.addEventListener('click', function() {
+    settings_link.addEventListener('click', function () {
       popup(settings.div);
     });
     this.title_div.appendChild(settings_link);
@@ -595,8 +595,8 @@ class VideoLayer extends RenderedLayer {
     backgroundElem(this.video);
 
     this.reader = new FileReader();
-    this.reader.addEventListener("load", (function() {
-      this.video.addEventListener('loadedmetadata', (function() {
+    this.reader.addEventListener("load", (function () {
+      this.video.addEventListener('loadedmetadata', (function () {
         let width = this.video.videoWidth;
         let height = this.video.videoHeight;
         let dur = this.video.duration;
@@ -629,10 +629,10 @@ class VideoLayer extends RenderedLayer {
   }
 
   async seek(t) {
-    return await (new Promise((function(resolve, reject) {
+    return await (new Promise((function (resolve, reject) {
       this.video.currentTime = t;
       this.video.pause();
-      this.video.addEventListener('seeked', (function(ev) {
+      this.video.addEventListener('seeked', (function (ev) {
         this.drawScaled(this.video, this.ctx, true);
         this.thumb_canvas.width = this.thumb_canvas.clientWidth * dpr;
         this.thumb_canvas.height = this.thumb_canvas.clientHeight * dpr;
@@ -695,7 +695,7 @@ class AudioLayer extends RenderedLayer {
     this.playing = false;
     this.last_time = 0;
     this.last_ref_time = 0;
-    this.reader.addEventListener("load", (function() {
+    this.reader.addEventListener("load", (function () {
       let buffer = this.reader.result;
       this.audio_ctx.decodeAudioData(buffer, (aud_buffer) => {
         this.audio_buffer = aud_buffer;
@@ -704,7 +704,7 @@ class AudioLayer extends RenderedLayer {
           this.player.remove(this);
         }
         this.ready = true;
-      }, (function(e) {
+      }, (function (e) {
         this.player.remove(this);
       }).bind(this));
     }).bind(this));
@@ -738,13 +738,13 @@ class AudioLayer extends RenderedLayer {
   }
 
   render(ctx_out, ref_time) {
-    console.log('ref_time =========================',ref_time);
+    console.log('ref_time =========================', ref_time);
     if (!this.ready) {
       return;
     }
-      if (!this.player.playing) {
-        return;
-      }
+    if (!this.player.playing) {
+      return;
+    }
     let time = ref_time - this.start_time;
     if (time < 0 || time > this.total_time) {
       return;
@@ -785,7 +785,7 @@ class Player {
     this.time_holder = document.getElementById('time');
     this.time_canvas = document.createElement('canvas');
     this.time_canvas.addEventListener('pointerdown', this.scrubStart.bind(this));
-    this.time_canvas.addEventListener('pointermove', this.scrubMove.bind(this), {passive:false});
+    this.time_canvas.addEventListener('pointermove', this.scrubMove.bind(this), { passive: false });
     this.time_canvas.addEventListener('pointerleave', this.scrubEnd.bind(this));
     this.time_ctx = this.time_canvas.getContext('2d');
     this.time_holder.appendChild(this.time_canvas);
@@ -796,19 +796,19 @@ class Player {
     window.requestAnimationFrame(this.loop.bind(this));
 
     this.setupPinchHadler(this.canvas_holder,
-      (function(scale, rotation) {
+      (function (scale, rotation) {
         this.update = {
           scale: scale,
           rotation: rotation
         };
       }).bind(this));
     this.setupPinchHadler(this.time_holder,
-      (function(scale, rotation) {
-       let new_x = (this.time_holder.clientWidth * scale - this.time_holder.clientWidth);
-       let old_x = this.time_holder.scrollLeft;
-       this.time_scale = Math.max(1, this.time_scale * scale);
-       this.resize_time();
-       this.time_holder.scroll(Math.round(old_x + new_x), 0);
+      (function (scale, rotation) {
+        let new_x = (this.time_holder.clientWidth * scale - this.time_holder.clientWidth);
+        let old_x = this.time_holder.scrollLeft;
+        this.time_scale = Math.max(1, this.time_scale * scale);
+        this.resize_time();
+        this.time_holder.scroll(Math.round(old_x + new_x), 0);
       }).bind(this));
     this.setupDragHandler();
     this.resize();
@@ -823,9 +823,9 @@ class Player {
   }
 
   async loadLayers(layers) {
-    let on_ready = function(d, c) {
+    let on_ready = function (d, c) {
       if (!d.ready) {
-        setTimeout(function(){ on_ready(d, c); }, 10);
+        setTimeout(function () { on_ready(d, c); }, 10);
       } else {
         c(d);
       }
@@ -843,11 +843,11 @@ class Player {
         alert("Layer couldn't be processed.");
         continue;
       }
-      on_ready(layer, function(l) {
+      on_ready(layer, function (l) {
         layer.name = layer.name;
         layer.width = layer_d.width,
-        layer.height = layer_d.height,
-        layer.start_time = layer_d.start_time;
+          layer.height = layer_d.height,
+          layer.start_time = layer_d.start_time;
         layer.total_time = layer_d.total_time;
         if (layer_d.frames) {
           layer.frames = [];
@@ -925,7 +925,7 @@ class Player {
     if (this.intersectsTime(l.start_time)) {
       this.time = l.start_time;
       let base_t = this.time;
-      this.dragging = function(t) {
+      this.dragging = function (t) {
         let diff = t - base_t;
         base_t = t;
         l.start_time += diff;
@@ -933,7 +933,7 @@ class Player {
     } else if (this.intersectsTime(l.start_time + l.total_time)) {
       this.time = l.start_time + l.total_time;
       let base_t = this.time;
-      this.dragging = function(t) {
+      this.dragging = function (t) {
         let diff = t - base_t;
         base_t = t;
         if (l instanceof MoveableLayer) {
@@ -944,7 +944,7 @@ class Player {
       }
     } else if (this.time < l.start_time + l.total_time && this.time > l.start_time) {
       let base_t = this.time;
-      this.dragging = function(t) {
+      this.dragging = function (t) {
         let diff = t - base_t;
         base_t = t;
         l.start_time += diff;
@@ -1003,7 +1003,7 @@ class Player {
     let gestureStartRotation = 0;
     let gestureStartScale = 0;
 
-    let wheel = function(e) {
+    let wheel = function (e) {
       if (e.ctrlKey || e.shiftKey) {
         e.preventDefault();
         let delta = e.deltaY;
@@ -1025,13 +1025,13 @@ class Player {
       }
     }
     // safari
-    let gesturestart = function(e) {
+    let gesturestart = function (e) {
       this.gesturing = true;
       e.preventDefault();
       gestureStartRotation = e.rotation;
       gestureStartScale = e.scale;
     };
-    let gesturechange = function(e) {
+    let gesturechange = function (e) {
       e.preventDefault();
       e.stopPropagation();
       let rotation = e.rotation - gestureStartRotation;
@@ -1040,7 +1040,7 @@ class Player {
       gestureStartScale = e.scale;
       callback(scale, rotation);
     };
-    let gestureend = function(e) {
+    let gestureend = function (e) {
       this.gesturing = false;
       e.preventDefault();
     };
@@ -1051,7 +1051,7 @@ class Player {
     elem.addEventListener('wheel', wheel.bind(this), {
       passive: false
     });
-    let deleter = function() {
+    let deleter = function () {
       elem.removeEventListener('gesturestart', gesturestart);
       elem.removeEventListener('gesturechange', gesturechange);
       elem.removeEventListener('gestureend', gestureend);
@@ -1060,7 +1060,7 @@ class Player {
   }
 
   setupDragHandler() {
-    let callback = (function(x, y) {
+    let callback = (function (x, y) {
       this.update = {
         x: x,
         y: y
@@ -1070,11 +1070,11 @@ class Player {
     let dragging = false;
     let base_x = 0;
     let base_y = 0;
-    let pointerup = function(e) {
+    let pointerup = function (e) {
       dragging = false;
       e.preventDefault();
     }
-    let get_ratio = (function(elem) {
+    let get_ratio = (function (elem) {
       let c_ratio = elem.clientWidth / elem.clientHeight;
       let target_ratio = this.width / this.height;
       // how many player pixels per client pixels
@@ -1086,7 +1086,7 @@ class Player {
       }
       return ratio;
     }).bind(this);
-    let pointerdown = function(e) {
+    let pointerdown = function (e) {
       if (!this.selected_layer) {
         return;
       }
@@ -1105,9 +1105,9 @@ class Player {
         once: true
       });
     }
-    let pointermove = function(e) {
+    let pointermove = function (e) {
       if (this.gesturing) { return; }
-      e.preventDefault(); 
+      e.preventDefault();
       e.stopPropagation();
       if (dragging) {
         let dx = e.offsetX * get_ratio(e.target) - base_x;
@@ -1116,8 +1116,8 @@ class Player {
       }
     }
     elem.addEventListener('pointerdown', pointerdown.bind(this));
-    elem.addEventListener('pointermove', pointermove.bind(this), {passive:false});
-    let deleter = function() {
+    elem.addEventListener('pointermove', pointermove.bind(this), { passive: false });
+    let deleter = function () {
       elem.removeEventListener('pointerdown', pointerdown);
       elem.removeEventListener('pointermove', pointermove);
     }
@@ -1204,14 +1204,14 @@ class Player {
     preview.classList.toggle('preview');
 
     preview.setAttribute('draggable', true);
-    preview.addEventListener('dragstart', (function(ev) {
+    preview.addEventListener('dragstart', (function (ev) {
       this.preview_dragging = preview;
       this.preview_dragging_layer = layer;
     }).bind(this));
-    preview.addEventListener('dragover', function(ev) {
+    preview.addEventListener('dragover', function (ev) {
       ev.preventDefault();
     });
-    preview.addEventListener('drop', (function(ev) {
+    preview.addEventListener('drop', (function (ev) {
       preview.before(this.preview_dragging);
       let idx = this.layers.indexOf(this.preview_dragging_layer);
       if (idx > -1) {
@@ -1224,7 +1224,7 @@ class Player {
       this.preview_dragging_layer = null;
     }).bind(this));
 
-    preview.addEventListener('click', (function() {
+    preview.addEventListener('click', (function () {
       this.select(layer);
     }).bind(this));
     thumb.classList.toggle('preview_thumb');
@@ -1409,7 +1409,7 @@ class Player {
 
 let player = new Player();
 
-window.addEventListener('drop', function(ev) {
+window.addEventListener('drop', function (ev) {
   ev.preventDefault();
   if (ev.dataTransfer.items) {
     for (var i = 0; i < ev.dataTransfer.items.length; i++) {
@@ -1424,18 +1424,18 @@ window.addEventListener('drop', function(ev) {
   }
 });
 
-window.addEventListener('paste', function(ev) {
+window.addEventListener('paste', function (ev) {
   let uri = (event.clipboardData || window.clipboardData).getData('text');
   player.addURI(uri);
 });
 
 // TODO show something
-window.addEventListener('dragover', function(e) {
+window.addEventListener('dragover', function (e) {
   e.preventDefault();
 });
 
 
-window.addEventListener('keydown', function(ev) {
+window.addEventListener('keydown', function (ev) {
   if (ev.code == "Space") {
     if (player.playing) {
       player.pause();
@@ -1458,18 +1458,18 @@ window.addEventListener('keydown', function(ev) {
     }
   } else if (ev.code == "KeyJ") {
     if (ev.ctrlKey) {
-     exportToJson();
+      exportToJson();
     }
   }
 });
 
 function popup(text) {
   const div = document.createElement('div');
-  div.addEventListener('keydown', function(ev) {
+  div.addEventListener('keydown', function (ev) {
     ev.stopPropagation();
   });
   const close = document.createElement('a');
-  close.addEventListener('click', function() {
+  close.addEventListener('click', function () {
     div.remove();
   });
   close.textContent = "[x]";
@@ -1480,13 +1480,13 @@ function popup(text) {
   document.body.appendChild(div);
 }
 
-window.addEventListener('load', function() {
+window.addEventListener('load', function () {
   // traffic public here: https://jott.live/stat?path=/raw/mebm_hit
   var xhr = new XMLHttpRequest();
   let url = "https://jott.live/raw/mebm_hit";
   xhr.open("GET", url, true);
   xhr.send(null);
-  
+
   // fix mobile touch
   document.getElementById('layer_holder').addEventListener("touchmove", function (e) {
     e.stopPropagation();
@@ -1517,11 +1517,11 @@ window.addEventListener('load', function() {
 
 });
 
-window.onbeforeunload = function() {
+window.onbeforeunload = function () {
   return true;
 }
 
-window.addEventListener('resize', function() {
+window.addEventListener('resize', function () {
   player.resize();
 });
 
@@ -1556,7 +1556,7 @@ function exportVideo(blob) {
     a.href = vid.src;
     document.getElementById('header').appendChild(a);
   }
-  vid.ontimeupdate = function() {
+  vid.ontimeupdate = function () {
     this.ontimeupdate = () => {
       return;
     }
@@ -1579,7 +1579,7 @@ function uploadSupportedType(files) {
   }
 
   if (badUserExtensions.length) {
-    const badFiles = badUserExtensions.map((ext)=>"- "+ext.name).join('<br>');
+    const badFiles = badUserExtensions.map((ext) => "- " + ext.name).join('<br>');
     const text = document.createElement('div');
     text.style.textAlign = "left";
     text.innerHTML = `
@@ -1595,8 +1595,8 @@ function uploadSupportedType(files) {
 
 function upload() {
   let f = document.getElementById('filepicker');
-  f.addEventListener('input', function(e) {
-    if(!uploadSupportedType(e.target.files)){return}
+  f.addEventListener('input', function (e) {
+    if (!uploadSupportedType(e.target.files)) { return }
     for (let file of e.target.files) {
       player.addFile(file);
     }
@@ -1647,7 +1647,7 @@ function getSupportedMimeTypes() {
 }
 
 function download(ev) {
-  console.log('Ev ====================',ev);
+  console.log('Ev ====================', ev);
   if (ev.shiftKey) {
     exportToJson();
     return;
@@ -1688,7 +1688,7 @@ function download(ev) {
   player.time = 0;
   player.play();
   rec.start();
-  player.onend(function(p) {
+  player.onend(function (p) {
     rec.stop();
     player.audio_dest = null;
     e.textContent = e_text;

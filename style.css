@@ -1,4 +1,4 @@
-    @font-face {
+    /* @font-face {
       font-family: ScriptWriter;
       src: url(/scriptwriter.ttf);
     }
@@ -6,7 +6,7 @@
     @font-face {
       font-family: Editor-Sans;
       src: url(/editorsans-text.ttf);
-    }
+    } */
 
     html, body {
       margin: 0;
