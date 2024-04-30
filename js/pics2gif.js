@@ -1,17 +1,4 @@
-// Show Lightbox Video Onload
-var playGuide = function() {
-  $.fancybox.open({
-    youtube : {
-      controls : 0,
-      showinfo : 0
-    },
-    src  : 'https://www.youtube.com/embed/ZVQaiXamOSU',
-    type : 'iframe'
-  });
-};
 
-// Watch How To Video
-alertify.message("<div class=\"grid\"><div class=\"centered grid__col--12 tc\"><h2>Instructional Guide!</h2><a class=\"pointer\" onclick=\"playGuide()\"><img src=\"imgs/playvideo.svg\" width=\"50%\"></a></div></div>");
 
 // load svg file
 function previewFiles() {
